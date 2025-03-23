@@ -3,9 +3,11 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      java: openjdk21
+      java: corretto-21
     commands:
-      - echo Nothing to do in the install phase
+      - echo Installing Amazon Corretto 21...
+      - yum update -y
+      - yum install -y java-21-amazon-corretto-devel
   pre_build:
     commands:
       - echo Nothing to do in the pre_build phase
