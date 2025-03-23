@@ -1,5 +1,7 @@
 plugins {
     id 'java'
+    id 'war'
+    id 'maven-publish'
     id 'org.springframework.boot' version '3.4.3'
     id 'io.spring.dependency-management' version '1.1.7'
 }
@@ -25,4 +27,25 @@ dependencies {
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+bootWar {
+    archiveFileName = 'myapp.war'
+}
+
+tasks.named('jar') {
+    enabled = false  // JAR 생성 비활성화
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.web  // Spring Boot의 WAR를 Maven으로 배포
+        }
+    }
+    repositories {
+        maven {
+            url = uri("${buildDir}/repo")
+        }
+    }
 }
