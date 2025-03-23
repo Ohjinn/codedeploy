@@ -2,12 +2,16 @@ version: 0.2
 
 phases:
   install:
-    runtime-versions:
-      java: corretto-21
     commands:
-      - echo Installing Amazon Corretto 21...
+      - echo Installing Amazon Corretto 21 manually...
       - yum update -y
-      - yum install -y java-21-amazon-corretto-devel
+      - yum install -y wget tar
+      - wget https://corretto.aws/downloads/latest/amazon-corretto-21-x64-linux-jdk.tar.gz
+      - mkdir -p /usr/lib/jvm
+      - tar -xvzf amazon-corretto-21-x64-linux-jdk.tar.gz -C /usr/lib/jvm
+      - export JAVA_HOME=/usr/lib/jvm/amazon-corretto-21
+      - export PATH=$JAVA_HOME/bin:$PATH
+      - java -version
   pre_build:
     commands:
       - echo Nothing to do in the pre_build phase
